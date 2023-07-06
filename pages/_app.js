@@ -1,6 +1,5 @@
 import {ChakraProvider} from "@chakra-ui/react";
 import ParseContext from "@/context/parseContext";
-import "react-toastify/dist/ReactToastify.min.css";
 
 import Parse from "parse/dist/parse";
 

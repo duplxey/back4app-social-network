@@ -13,7 +13,7 @@ import {
   HStack,
   Input,
   Link,
-  Text, useToast,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import {FaUserPlus} from "react-icons/fa";
@@ -24,11 +24,11 @@ export default function SignUp() {
 
   const router = useRouter();
   const parse = useContext(ParseContext);
-  const toast = useToast();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // redirect the user if already logged in
   useEffect(() => {
     (async () => {
       if (parse.User.current() !== null) {
@@ -41,29 +41,17 @@ export default function SignUp() {
     event.preventDefault();
 
     if (!username || !password) {
-      toast({
-        title: "Please fill out all fields.",
-        position: "bottom-right",
-        status: "error",
-      });
+      console.error("Please fill out all the fields.");
       return;
     }
 
     try {
       await parse.User.signUp(username, password).then(() => {
         router.push("/");
-        toast({
-          title: "Successfully signed up.",
-          position: "bottom-right",
-          status: "success",
-        });
+        console.log("Successfully signed up.");
       });
     } catch (error) {
-      toast({
-        title: error.message,
-        position: "bottom-right",
-        status: "error",
-      });
+      console.error(error.message);
     }
   };
 

@@ -13,7 +13,7 @@ import {
   HStack,
   Input,
   Link,
-  Text, useToast,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import {FaUser} from "react-icons/fa";
@@ -24,11 +24,11 @@ export default function Login() {
 
   const router = useRouter();
   const parse = useContext(ParseContext);
-  const toast = useToast();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // redirect the user if already logged in
   useEffect(() => {
     (async () => {
       if (parse.User.current() !== null) {
@@ -41,29 +41,17 @@ export default function Login() {
     event.preventDefault();
 
     if (!username || !password) {
-      toast({
-        title: "Please enter your username and password.",
-        position: "bottom-right",
-        status: "error",
-      });
+      console.error("Please enter both your username and password.");
       return;
     }
 
     try {
       await parse.User.logIn(username, password).then(() => {
         router.push("/");
-        toast({
-          title: "Successfully logged in.",
-          position: "bottom-right",
-          status: "success",
-        });
+        console.log("Successfully logged in.");
       });
     } catch (error) {
-      toast({
-        title: error.message,
-        position: "bottom-right",
-        status: "error",
-      });
+      console.error(error.message);
     }
   };
 

@@ -1,10 +1,9 @@
-import {Avatar, Box, Button, Card, CardBody, CardFooter, CardHeader, Heading, HStack, Text} from "@chakra-ui/react";
-import {HiOutlineThumbDown, HiOutlineThumbUp} from "react-icons/hi";
+import {Avatar, Box, Card, CardBody, CardHeader, Heading, HStack, Text} from "@chakra-ui/react";
 
 export default function Post(props) {
   return (
-    <Card mb={2}>
-      <CardHeader>
+    <Card mt={2}>
+      <CardHeader pb={0}>
         <HStack spacing="1em">
           <Avatar name={props.author.username} src={props.author.avatarUrl}/>
           <Box>
@@ -13,17 +12,9 @@ export default function Post(props) {
           </Box>
         </HStack>
       </CardHeader>
-      <CardBody py={0}>
+      <CardBody>
         <Text>{props.content}</Text>
       </CardBody>
-      <CardFooter justify="space-between" flexWrap="wrap">
-        <Button flex="1" variant="ghost" leftIcon={<HiOutlineThumbUp/>}>
-          Like (15)
-        </Button>
-        <Button flex="1" variant="ghost" leftIcon={<HiOutlineThumbDown/>}>
-          Dislike (12)
-        </Button>
-      </CardFooter>
     </Card>
   );
 }

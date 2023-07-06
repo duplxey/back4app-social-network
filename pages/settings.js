@@ -11,7 +11,6 @@ import {
   Heading,
   HStack,
   Input,
-  useToast,
   VStack,
 } from "@chakra-ui/react";
 import {FaCog} from "react-icons/fa";
@@ -22,7 +21,6 @@ export default function Settings() {
 
   const router = useRouter();
   const parse = useContext(ParseContext);
-  const toast = useToast();
 
   const [description, setDescription] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -31,12 +29,13 @@ export default function Settings() {
     (async () => {
       const user = parse.User.current();
 
-      // if user is not logged in, redirect him
+      // redirect the user if not logged in
       if (user === null) {
         await router.push("/");
         return;
       }
 
+      // load data from the database
       setDescription(await user.get("description"));
       setAvatarUrl(await user.get("avatarUrl"));
     })();
@@ -48,22 +47,14 @@ export default function Settings() {
     user.set("avatarUrl", avatarUrl);
     await user.save();
 
-    toast({
-      title: "Settings saved.",
-      position: "bottom-right",
-      status: "success",
-    });
+    console.log("Successfully saved settings.");
   };
 
   const onLogout = async () => {
     await parse.User.logOut();
     await router.push("/");
 
-    toast({
-      title: "Successfully logged out.",
-      position: "bottom-right",
-      status: "success",
-    });
+    console.log("Successfully logged out.");
   };
 
   return (

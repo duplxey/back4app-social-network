@@ -1,16 +1,15 @@
 import {useContext, useEffect, useState} from "react";
 import {
-  Alert, AlertIcon,
+  Alert,
+  AlertIcon,
   Button,
   Card,
   CardBody,
   CardFooter,
-  CardHeader, Flex,
+  CardHeader,
   Heading,
   HStack,
-  Spinner,
   Textarea,
-  useToast,
 } from "@chakra-ui/react";
 import {FaPlus} from "react-icons/fa";
 import ParseContext from "@/context/parseContext";
@@ -20,19 +19,17 @@ import Post from "@/components/post";
 export default function Home() {
 
   const parse = useContext(ParseContext);
-  const toast = useToast();
 
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [postContent, setPostContent] = useState("");
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     setUser(parse.User.current());
+
     (async () => {
       const posts = await new parse.Query("Post").include("author").descending("createdAt").find();
       setPosts(posts);
-      setIsLoading(false);
     })();
   }, []);
 
@@ -45,11 +42,7 @@ export default function Home() {
     await post.save();
 
     setPostContent("");
-    toast({
-      title: "Post created.",
-      position: "bottom-right",
-      status: "success",
-    });
+    setPosts([post, ...posts]);
   };
 
   return (
@@ -79,19 +72,13 @@ export default function Home() {
           You need to log in to create posts.
         </Alert>
       )}
-      {isLoading ? (
-        <Spinner size="lg"/>
-      ) : (
-        <>
-          {posts.map(post => (
-            <Post
-              key={post.id}
-              content={post.attributes.content}
-              author={{...post.attributes.author.attributes}}
-            />
-          ))}
-        </>
-      )}
+      {posts.map(post => (
+        <Post
+          key={post.id}
+          content={post.attributes.content}
+          author={{...post.attributes.author.attributes}}
+        />
+      ))}
     </Layout>
   );
 }

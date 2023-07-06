@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <Box py={4}>
       <Divider my={4}/>
-      <Container maxW="container.lg" display="flex" justifyContent="space-between">
+      <Container maxW="container.lg" display="flex" justifyContent="space-between" alignItems="center">
         <VStack alignItems="left">
           <Heading size="sm">A simple social network powered by Back4app.</Heading>
           <Link as={NextLink} href="https://blog.back4app.com/how-to-develop-a-social-media-app/">
