@@ -1,10 +1,11 @@
 import {Button, Card, CardBody, CardFooter, CardHeader, Heading, HStack, Textarea,} from "@chakra-ui/react";
 import Post from "@/components/post";
 import {FaPlus} from "react-icons/fa";
+import Layout from "@/components/layout";
 
 export default function Home() {
   return (
-    <>
+    <Layout>
       <Card mb={2}>
         <CardHeader>
           <HStack>
@@ -21,6 +22,6 @@ export default function Home() {
       </Card>
       <Post/>
       <Post/>
-    </>
+    </Layout>
   );
 }

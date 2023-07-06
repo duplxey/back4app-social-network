@@ -7,10 +7,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <body>
-      <Head/>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-      <Main/>
-      <NextScript/>
+        <Head/>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
+        <Main/>
+        <NextScript/>
       </body>
     </Html>
   );

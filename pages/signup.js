@@ -1,3 +1,6 @@
+import NextLink from "next/link";
+import {useRouter} from "next/router";
+import {useContext, useEffect, useState} from "react";
 import {
   Button,
   Card,
@@ -10,15 +13,62 @@ import {
   HStack,
   Input,
   Link,
-  Text,
+  Text, useToast,
   VStack,
 } from "@chakra-ui/react";
 import {FaUserPlus} from "react-icons/fa";
-import NextLink from "next/link";
+import ParseContext from "@/context/parseContext";
+import Layout from "@/components/layout";
 
 export default function SignUp() {
+
+  const router = useRouter();
+  const parse = useContext(ParseContext);
+  const toast = useToast();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      if (parse.User.current() !== null) {
+        await router.push("/");
+      }
+    })();
+  }, [router, parse.User]);
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!username || !password) {
+      toast({
+        title: "Please fill out all fields.",
+        position: "bottom-right",
+        status: "error",
+      });
+      return;
+    }
+
+    try {
+      await parse.User.signUp(username, password).then(() => {
+        router.push("/");
+        toast({
+          title: "Successfully signed up.",
+          position: "bottom-right",
+          status: "success",
+        });
+      });
+    } catch (error) {
+      toast({
+        title: error.message,
+        position: "bottom-right",
+        status: "error",
+      });
+    }
+  };
+
   return (
-    <>
+    <Layout>
       <Card>
         <CardHeader>
           <HStack>
@@ -27,18 +77,23 @@ export default function SignUp() {
           </HStack>
         </CardHeader>
         <CardBody py={0}>
-          <VStack spacing="1em">
+          <VStack spacing="1em" alignItems="left">
             <FormControl>
               <FormLabel>Username</FormLabel>
-              <Input placeholder="Username"/>
+              <Input
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </FormControl>
             <FormControl>
               <FormLabel>Password</FormLabel>
-              <Input placeholder="Password"/>
-            </FormControl>
-            <FormControl>
-              <FormLabel>Repeat password</FormLabel>
-              <Input placeholder="Repeat password"/>
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </FormControl>
           </VStack>
         </CardBody>
@@ -49,9 +104,9 @@ export default function SignUp() {
               Log in
             </Link>
           </Text>
-          <Button colorScheme="teal">Sign up</Button>
+          <Button colorScheme="teal" onClick={onSubmit}>Sign up</Button>
         </CardFooter>
       </Card>
-    </>
+    </Layout>
   );
 }

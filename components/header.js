@@ -1,10 +1,16 @@
 import NextLink from "next/link";
 import {Avatar, Box, Container, Divider, Heading, HStack, Link} from "@chakra-ui/react";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import ParseContext from "@/context/parseContext";
 
 export default function Header() {
 
-  const [loggedIn, setLoggedIn] = useState(false);
+  const parse = useContext(ParseContext);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setUser(parse.User.current());
+  }, [parse.User]);
 
   return (
     <Box py={4}>
@@ -14,12 +20,12 @@ export default function Header() {
             back4app-social-network
           </Link>
         </Heading>
-        {loggedIn ? (
+        {user != null ? (
           <HStack>
-            <Avatar size="sm" name="duplxey" src="https://i1.sndcdn.com/avatars-000566055321-ffydsa-t200x200.jpg"/>
+            <Avatar size="sm" name={user.attributes.username} src={user.attributes.avatarUrl}/>
             <Heading size="sm">
               <Link as={NextLink} href="/settings">
-                duplxey
+                {user.attributes.username}
               </Link>
             </Heading>
           </HStack>
