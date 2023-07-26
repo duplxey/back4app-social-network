@@ -2,7 +2,7 @@
 
 This repository demonstrates how to build a simple social network with [Back4app](https://www.back4app.com/) and [Next.js](https://nextjs.org/).
 
-To learn more check out the [article](#).
+To learn more check out the [article](https://blog.back4app.com/how-to-develop-a-social-media-app/).
 
 ## Development (frontend)
 
